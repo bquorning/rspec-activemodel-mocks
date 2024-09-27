@@ -3,12 +3,18 @@ source "https://rubygems.org"
 
 gemspec
 
-%w[rspec rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
-  library_path = File.expand_path("../../#{lib}", __FILE__)
+{
+  'rspec' => 'rspec-metagem',
+  'rspec-core' => 'rspec-core',
+  'rspec-expectations' => 'rspec-expectations',
+  'rspec-mocks' => 'rspec-mocks',
+  'rspec-support' => 'rspec-support'
+}.each do |lib, repo|
+  library_path = File.expand_path("../../#{repo}", __FILE__)
   if File.exist?(library_path) && !ENV['USE_GIT_REPOS']
     gem lib, :path => library_path
   else
-    gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => ENV.fetch('RSPEC_BRANCH', 'main')
+    gem lib, :git => "https://github.com/rspec/#{repo}.git", :branch => ENV.fetch('RSPEC_BRANCH', 'main')
   end
 end
 
